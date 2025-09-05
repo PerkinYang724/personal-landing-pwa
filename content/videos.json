@@ -1,0 +1,132 @@
+[
+    {
+        "id": "yt-flow-01",
+        "title": "Flow State: How I Edit for Hours",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "thumbnail": "/images/covers/flow.jpg",
+        "tags": [
+            "Cinematic",
+            "Tutorial"
+        ],
+        "durationSec": 183,
+        "date": "2025-08-20"
+    },
+    {
+        "id": "reel-startup-01",
+        "title": "College Startup: 30-Second Pitch",
+        "platform": "reel",
+        "url": "https://www.instagram.com/reel/example/",
+        "thumbnail": "/images/covers/startup.jpg",
+        "tags": [
+            "Startup",
+            "Short"
+        ],
+        "durationSec": 30,
+        "date": "2025-08-05"
+    },
+    {
+        "id": "yt-cinematic-01",
+        "title": "Cinematic B-Roll: Campus Life",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "thumbnail": "/images/covers/campus.jpg",
+        "tags": [
+            "Cinematic",
+            "Student Life"
+        ],
+        "durationSec": 120,
+        "date": "2025-07-28"
+    },
+    {
+        "id": "reel-tutorial-01",
+        "title": "Quick Color Grading Tips",
+        "platform": "reel",
+        "url": "https://www.instagram.com/reel/example2/",
+        "thumbnail": "/images/covers/color.jpg",
+        "tags": [
+            "Tutorial",
+            "Short"
+        ],
+        "durationSec": 45,
+        "date": "2025-07-15"
+    },
+    {
+        "id": "vimeo-creative-01",
+        "title": "Creative Process: From Idea to Video",
+        "platform": "vimeo",
+        "url": "https://vimeo.com/example",
+        "thumbnail": "/images/covers/process.jpg",
+        "tags": [
+            "Creative",
+            "Process"
+        ],
+        "durationSec": 240,
+        "date": "2025-07-01"
+    },
+    {
+        "id": "yt-student-01",
+        "title": "Student Life: Behind the Scenes",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "thumbnail": "/images/covers/student.jpg",
+        "tags": [
+            "Student Life",
+            "Behind the Scenes"
+        ],
+        "durationSec": 300,
+        "date": "2025-06-20"
+    },
+    {
+        "id": "reel-tech-01",
+        "title": "Tech Setup Tour",
+        "platform": "reel",
+        "url": "https://www.instagram.com/reel/example3/",
+        "thumbnail": "/images/covers/tech.jpg",
+        "tags": [
+            "Tech",
+            "Setup"
+        ],
+        "durationSec": 60,
+        "date": "2025-06-10"
+    },
+    {
+        "id": "yt-tutorial-02",
+        "title": "Advanced Editing Techniques",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "thumbnail": "/images/covers/editing.jpg",
+        "tags": [
+            "Tutorial",
+            "Advanced"
+        ],
+        "durationSec": 420,
+        "date": "2025-05-25"
+    },
+    {
+        "id": "reel-lifestyle-01",
+        "title": "Day in the Life: Content Creator",
+        "platform": "reel",
+        "url": "https://www.instagram.com/reel/example4/",
+        "thumbnail": "/images/covers/lifestyle.jpg",
+        "tags": [
+            "Lifestyle",
+            "Day in the Life"
+        ],
+        "durationSec": 90,
+        "date": "2025-05-15"
+    },
+    {
+        "id": "yt-collab-01",
+        "title": "Collaboration with Local Artists",
+        "platform": "youtube",
+        "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        "thumbnail": "/images/covers/collab.jpg",
+        "tags": [
+            "Collaboration",
+            "Artists"
+        ],
+        "durationSec": 360,
+        "date": "2025-05-01"
+    }
+]
