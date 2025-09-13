@@ -31,11 +31,25 @@ export function Hero() {
     // Auto-play video when main interface is shown
     useEffect(() => {
         if (showMainInterface) {
-            const timer = setTimeout(() => {
-                console.log("Attempting to play video...");
-                videoRef.current?.play();
-            }, 1000);
-            return () => clearTimeout(timer);
+            // Try multiple times with different delays
+            const timers = [
+                setTimeout(() => {
+                    console.log("Attempting to play video (1st try)...");
+                    videoRef.current?.play();
+                }, 500),
+                setTimeout(() => {
+                    console.log("Attempting to play video (2nd try)...");
+                    videoRef.current?.play();
+                }, 1500),
+                setTimeout(() => {
+                    console.log("Attempting to play video (3rd try)...");
+                    videoRef.current?.play();
+                }, 3000)
+            ];
+            
+            return () => {
+                timers.forEach(timer => clearTimeout(timer));
+            };
         }
     }, [showMainInterface]);
 

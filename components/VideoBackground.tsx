@@ -22,18 +22,26 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
         useImperativeHandle(ref, () => ({
             play: () => {
                 const video = videoRef.current;
-                if (video && isLoaded) {
+                console.log("Video play called, video:", video, "isLoaded:", isLoaded);
+                if (video) {
+                    // Try to play even if not loaded yet
                     const playPromise = video.play();
                     if (playPromise !== undefined) {
                         playPromise
                             .then(() => {
                                 setHasPlayed(true);
-                                console.log("Video started playing");
+                                console.log("Video started playing successfully");
                             })
                             .catch((error) => {
                                 console.warn("Video play failed:", error);
+                                // Try again after a short delay
+                                setTimeout(() => {
+                                    video.play().catch(console.warn);
+                                }, 1000);
                             });
                     }
+                } else {
+                    console.warn("Video element not found");
                 }
             },
             pause: () => {
@@ -51,6 +59,10 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             const handleLoadedData = () => {
                 setIsLoaded(true);
                 console.log("Video loaded successfully");
+                // Try to play automatically when loaded
+                video.play().catch((error) => {
+                    console.warn("Auto-play failed:", error);
+                });
             };
 
             const handleError = () => {
@@ -60,14 +72,25 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
 
             const handlePlay = () => {
                 setHasPlayed(true);
+                console.log("Video is now playing");
+            };
+
+            const handleCanPlay = () => {
+                console.log("Video can play");
+                // Try to play when video is ready
+                video.play().catch((error) => {
+                    console.warn("Can play auto-play failed:", error);
+                });
             };
 
             video.addEventListener("loadeddata", handleLoadedData);
+            video.addEventListener("canplay", handleCanPlay);
             video.addEventListener("error", handleError);
             video.addEventListener("play", handlePlay);
 
             return () => {
                 video.removeEventListener("loadeddata", handleLoadedData);
+                video.removeEventListener("canplay", handleCanPlay);
                 video.removeEventListener("error", handleError);
                 video.removeEventListener("play", handlePlay);
             };
@@ -77,9 +100,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             <div className={`fixed inset-0 w-screen h-screen overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
-                    className={`transition-opacity duration-1000 ${
-                        isLoaded ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"
+                        }`}
                     muted
                     loop
                     playsInline
@@ -92,7 +114,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                         height: '100vh',
                         objectFit: 'cover',
                         objectPosition: 'center center',
-                        zIndex: -1
+                        zIndex: -1,
+                        pointerEvents: 'none'
                     }}
                 >
                     <source src={videoSrc} type="video/mp4" />
@@ -103,7 +126,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 {poster && !isLoaded && (
                     <div
                         className="bg-cover bg-center bg-no-repeat"
-                        style={{ 
+                        style={{
                             position: 'fixed',
                             top: 0,
                             left: 0,
