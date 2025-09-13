@@ -23,11 +23,11 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             play: () => {
                 const video = videoRef.current;
                 console.log("Video play called, video:", video, "isLoaded:", isLoaded);
-                
+
                 if (video) {
                     // Force video to be ready for playback
                     video.load();
-                    
+
                     // Try to play video immediately
                     const videoPromise = video.play();
                     if (videoPromise !== undefined) {
