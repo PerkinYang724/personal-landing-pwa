@@ -8,11 +8,13 @@ import { QRBlock } from "./QRBlock";
 import { VideoBackground, VideoBackgroundRef } from "./VideoBackground";
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRouter } from "next/navigation";
 
 export function Hero() {
     const [showMainInterface, setShowMainInterface] = useState(false);
     const [showBioAfterVideo, setShowBioAfterVideo] = useState(false);
     const { t } = useLanguage();
+    const router = useRouter();
     const videoRef = useRef<VideoBackgroundRef>(null);
 
     const stats = [
@@ -22,7 +24,7 @@ export function Hero() {
     ];
 
     const scrollToWork = () => {
-        document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+        router.push("/work");
     };
 
     const scrollToStartup = () => {

@@ -64,7 +64,7 @@ export default function WorkPage() {
                             My Work
                         </h1>
                         <p className="text-xl text-white/90 max-w-3xl mx-auto mb-8">
-                            A showcase of my creative projects, research, and entrepreneurial journey. 
+                            A showcase of my creative projects, research, and entrepreneurial journey.
                             From cinematic videos to academic research, explore the work that drives my passion.
                         </p>
                     </motion.div>
@@ -215,7 +215,7 @@ export default function WorkPage() {
                             Interested in Collaborating?
                         </h2>
                         <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                            I&apos;m always excited to work on new projects and explore innovative ideas. 
+                            I&apos;m always excited to work on new projects and explore innovative ideas.
                             Let&apos;s create something amazing together.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
