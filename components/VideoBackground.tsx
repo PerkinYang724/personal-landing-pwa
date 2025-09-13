@@ -26,7 +26,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 if (video) {
                     // Force video to be ready for playback
                     video.load();
-                    
+
                     // Try to play immediately
                     const playPromise = video.play();
                     if (playPromise !== undefined) {
@@ -116,7 +116,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 document.removeEventListener("click", handleUserInteraction);
                 document.removeEventListener("touchstart", handleUserInteraction);
                 document.removeEventListener("keydown", handleUserInteraction);
-                
+
                 video.removeEventListener("loadeddata", handleLoadedData);
                 video.removeEventListener("canplay", handleCanPlay);
                 video.removeEventListener("error", handleError);
@@ -174,7 +174,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 )}
 
                 {/* Overlay for better text readability */}
-                <div className="absolute inset-0 bg-black/40" />
+                <div className="absolute inset-0 bg-black/20" />
             </div>
         );
     }

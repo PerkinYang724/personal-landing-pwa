@@ -61,7 +61,7 @@ export function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center text-center">
             <FilmGrain />
-            <div className="absolute inset-0 bg-gradient-cinematic opacity-30 z-0 vignette"></div>
+            <div className="absolute inset-0 bg-gradient-cinematic opacity-10 z-0 vignette"></div>
 
             <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 min-h-screen flex flex-col justify-center">
                 <AnimatePresence mode="wait">
@@ -81,8 +81,8 @@ export function Hero() {
                                 transition={{ duration: 1, ease: "easeOut" }}
                                 className="text-center"
                             >
-                                <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-4">
-                                    {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
+                                <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-white mb-4 drop-shadow-lg">
+                                    {t("hero.greeting")} <span className="text-white">{t("hero.name")}</span>
                                 </div>
 
                                 {/* Tagline with special animation */}
@@ -90,7 +90,7 @@ export function Hero() {
                                     initial={{ opacity: 0, y: 20, scale: 0.95 }}
                                     animate={{ opacity: 1, y: 0, scale: 1 }}
                                     transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-                                    className="text-lg md:text-xl text-accent font-medium tracking-wide mb-6"
+                                    className="text-lg md:text-xl text-white font-medium tracking-wide mb-6 drop-shadow-lg"
                                 >
                                     {t("hero.tagline")}
                                 </motion.div>
@@ -101,14 +101,14 @@ export function Hero() {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 2 }}
-                                className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
+                                className="text-lg md:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed space-y-4 drop-shadow-lg"
                             >
                                 {t("hero.bio1") && (
                                     <motion.p
                                         initial={{ opacity: 0, y: 15 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.6, delay: 2.2 }}
-                                        className="font-medium text-foreground/90"
+                                        className="font-medium text-white drop-shadow-lg"
                                     >
                                         {t("hero.bio1")}
                                     </motion.p>
@@ -137,7 +137,7 @@ export function Hero() {
                                     <Button
                                         onClick={handleEnterMainInterface}
                                         size="lg"
-                                        className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group shadow-lg hover:shadow-xl transition-all duration-300"
+                                        className="bg-white/90 hover:bg-white text-black px-8 py-6 text-lg font-semibold group shadow-2xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
                                     >
                                         {t("hero.enter")}
                                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -171,19 +171,19 @@ export function Hero() {
                                         transition={{ duration: 0.8, delay: 0.2 }}
                                         className="text-center"
                                     >
-                                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4">
-                                            <span className="text-gradient">{t("hero.welcome")}</span>
-                                        </h1>
-                                        <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-4">
-                                            {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
-                                        </div>
+                                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4 drop-shadow-lg">
+                                        <span className="text-white">{t("hero.welcome")}</span>
+                                    </h1>
+                                    <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-white mb-4 drop-shadow-lg">
+                                        {t("hero.greeting")} <span className="text-white">{t("hero.name")}</span>
+                                    </div>
 
                                         {/* Tagline in main interface */}
                                         <motion.div
                                             initial={{ opacity: 0, y: 15, scale: 0.95 }}
                                             animate={{ opacity: 1, y: 0, scale: 1 }}
                                             transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                                            className="text-lg md:text-xl text-accent font-medium tracking-wide mb-6"
+                                            className="text-lg md:text-xl text-white font-medium tracking-wide mb-6 drop-shadow-lg"
                                         >
                                             {t("hero.tagline")}
                                         </motion.div>
@@ -193,14 +193,14 @@ export function Hero() {
                                         initial={{ opacity: 0, y: 20 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ duration: 0.8, delay: 0.6 }}
-                                        className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
+                                        className="text-lg md:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed space-y-4 drop-shadow-lg"
                                     >
                                         {t("hero.bio1") && (
                                             <motion.p
                                                 initial={{ opacity: 0, y: 15 }}
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ duration: 0.6, delay: 0.8 }}
-                                                className="font-medium text-foreground/90"
+                                                className="font-medium text-white drop-shadow-lg"
                                             >
                                                 {t("hero.bio1")}
                                             </motion.p>
@@ -227,11 +227,11 @@ export function Hero() {
                                         whileTap={{ scale: 0.95 }}
                                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                     >
-                                        <Button
-                                            onClick={scrollToWork}
-                                            size="lg"
-                                            className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group shadow-lg hover:shadow-xl transition-all duration-300"
-                                        >
+                                    <Button
+                                        onClick={scrollToWork}
+                                        size="lg"
+                                        className="bg-white/90 hover:bg-white text-black px-8 py-6 text-lg font-semibold group shadow-2xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
+                                    >
                                             {t("hero.explore")}
                                             <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                         </Button>
@@ -242,11 +242,11 @@ export function Hero() {
                                         whileTap={{ scale: 0.95 }}
                                         transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                     >
-                                        <Button
-                                            variant="outline"
-                                            size="lg"
-                                            className="border-accent/50 text-accent hover:bg-accent/10 px-8 py-6 text-lg font-semibold group shadow-lg hover:shadow-xl transition-all duration-300"
-                                        >
+                                    <Button
+                                        variant="outline"
+                                        size="lg"
+                                        className="border-white/50 text-white hover:bg-white/10 px-8 py-6 text-lg font-semibold group shadow-2xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
+                                    >
                                             <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                                             {t("hero.watch")}
                                         </Button>
