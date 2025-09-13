@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "re
 
 interface VideoBackgroundProps {
     videoSrc: string;
-    audioSrc?: string;
     poster?: string;
     className?: string;
 }
@@ -15,17 +14,15 @@ export interface VideoBackgroundRef {
 }
 
 export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundProps>(
-    function VideoBackground({ videoSrc, audioSrc, poster, className = "" }, ref) {
+    function VideoBackground({ videoSrc, poster, className = "" }, ref) {
         const videoRef = useRef<HTMLVideoElement>(null);
-        const audioRef = useRef<HTMLAudioElement>(null);
         const [isLoaded, setIsLoaded] = useState(false);
         const [hasPlayed, setHasPlayed] = useState(false);
 
         useImperativeHandle(ref, () => ({
             play: () => {
                 const video = videoRef.current;
-                const audio = audioRef.current;
-                console.log("Video play called, video:", video, "audio:", audio, "isLoaded:", isLoaded);
+                console.log("Video play called, video:", video, "isLoaded:", isLoaded);
                 
                 if (video) {
                     // Force video to be ready for playback
@@ -37,16 +34,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                         videoPromise
                             .then(() => {
                                 setHasPlayed(true);
-                                console.log("Video started playing successfully");
-                                
-                                // Play audio if available
-                                if (audio) {
-                                    audio.play().then(() => {
-                                        console.log("Audio started playing successfully");
-                                    }).catch((audioError) => {
-                                        console.warn("Audio play failed:", audioError);
-                                    });
-                                }
+                                console.log("Video with audio started playing successfully");
                             })
                             .catch((error) => {
                                 console.warn("Video play failed:", error);
@@ -57,12 +45,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                                         console.log(`Retry attempt ${index + 1} after ${delay}ms`);
                                         video.play().then(() => {
                                             setHasPlayed(true);
-                                            console.log(`Video started playing on retry ${index + 1}`);
-                                            
-                                            // Play audio on retry
-                                            if (audio) {
-                                                audio.play().catch(console.warn);
-                                            }
+                                            console.log(`Video with audio started playing on retry ${index + 1}`);
                                         }).catch((retryError) => {
                                             console.warn(`Retry ${index + 1} failed:`, retryError);
                                         });
@@ -76,12 +59,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             },
             pause: () => {
                 const video = videoRef.current;
-                const audio = audioRef.current;
                 if (video) {
                     video.pause();
-                }
-                if (audio) {
-                    audio.pause();
                 }
             }
         }));
@@ -152,7 +131,6 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     ref={videoRef}
                     className={`transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"
                         }`}
-                    muted
                     loop
                     playsInline
                     poster={poster}
@@ -171,19 +149,6 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     <source src={videoSrc} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
-
-                {/* Audio element for background music */}
-                {audioSrc && (
-                    <audio
-                        ref={audioRef}
-                        loop
-                        preload="auto"
-                        style={{ display: 'none' }}
-                    >
-                        <source src={audioSrc} type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                    </audio>
-                )}
 
                 {/* Fallback poster image */}
                 {poster && !isLoaded && (
