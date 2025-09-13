@@ -5,13 +5,14 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { FilmGrain } from "./FilmGrain";
 import { QRBlock } from "./QRBlock";
-import { VideoBackground } from "./VideoBackground";
-import { useState } from "react";
+import { VideoBackground, VideoBackgroundRef } from "./VideoBackground";
+import { useState, useRef } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Hero() {
     const [showMainInterface, setShowMainInterface] = useState(false);
     const { t } = useLanguage();
+    const videoRef = useRef<VideoBackgroundRef>(null);
 
     const stats = [
         { value: "300+", label: t("stats.videos") },
@@ -25,6 +26,10 @@ export function Hero() {
 
     const handleEnterMainInterface = () => {
         setShowMainInterface(true);
+        // Trigger video play after a short delay to allow the interface to transition
+        setTimeout(() => {
+            videoRef.current?.play();
+        }, 500);
     };
 
     return (
@@ -93,11 +98,12 @@ export function Hero() {
                         <>
                             {/* Video Background for Main Interface */}
                             <VideoBackground
+                                ref={videoRef}
                                 videoSrc="/videos/hero-background.mp4"
                                 poster="/images/hero-poster.jpg"
                                 className="z-0"
                             />
-                            
+
                             <motion.div
                                 key="main"
                                 initial={{ opacity: 0, y: 30 }}
@@ -106,93 +112,93 @@ export function Hero() {
                                 transition={{ duration: 0.8, ease: "easeOut" }}
                                 className="space-y-8 relative z-10"
                             >
-                            {/* Main Heading */}
-                            <div className="space-y-6">
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.2 }}
-                                    className="text-center"
-                                >
-                                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4">
-                                        <span className="text-gradient">{t("hero.welcome")}</span>
-                                    </h1>
-                                    <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-6">
-                                        {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
-                                    </div>
-                                </motion.div>
+                                {/* Main Heading */}
+                                <div className="space-y-6">
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.8, delay: 0.2 }}
+                                        className="text-center"
+                                    >
+                                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4">
+                                            <span className="text-gradient">{t("hero.welcome")}</span>
+                                        </h1>
+                                        <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-6">
+                                            {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
+                                        </div>
+                                    </motion.div>
 
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.4 }}
-                                    className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
-                                >
-                                    {t("hero.bio1") && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.8, delay: 0.4 }}
+                                        className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
+                                    >
+                                        {t("hero.bio1") && (
+                                            <p>
+                                                {t("hero.bio1")}
+                                            </p>
+                                        )}
                                         <p>
-                                            {t("hero.bio1")}
+                                            {t("hero.bio2")}
                                         </p>
-                                    )}
-                                    <p>
-                                        {t("hero.bio2")}
-                                    </p>
+                                    </motion.div>
+                                </div>
+
+                                {/* CTA Buttons */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 0.6 }}
+                                    className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                                >
+                                    <Button
+                                        onClick={scrollToWork}
+                                        size="lg"
+                                        className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group"
+                                    >
+                                        {t("hero.explore")}
+                                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                    </Button>
+
+                                    <Button
+                                        variant="outline"
+                                        size="lg"
+                                        className="border-accent/50 text-accent hover:bg-accent/10 px-8 py-6 text-lg font-semibold group"
+                                    >
+                                        <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                                        {t("hero.watch")}
+                                    </Button>
                                 </motion.div>
-                            </div>
 
-                            {/* CTA Buttons */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.6 }}
-                                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-                            >
-                                <Button
-                                    onClick={scrollToWork}
-                                    size="lg"
-                                    className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group"
+                                {/* Stats */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 0.8 }}
+                                    className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
                                 >
-                                    {t("hero.explore")}
-                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                                </Button>
+                                    {stats.map((stat) => (
+                                        <div key={stat.label} className="text-center space-y-2">
+                                            <div className="text-3xl md:text-4xl font-bold text-accent">
+                                                {stat.value}
+                                            </div>
+                                            <div className="text-sm text-muted-foreground uppercase tracking-wide">
+                                                {stat.label}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </motion.div>
 
-                                <Button
-                                    variant="outline"
-                                    size="lg"
-                                    className="border-accent/50 text-accent hover:bg-accent/10 px-8 py-6 text-lg font-semibold group"
+                                {/* QR Code Section */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 1 }}
+                                    className="pt-8"
                                 >
-                                    <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-                                    {t("hero.watch")}
-                                </Button>
-                            </motion.div>
-
-                            {/* Stats */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 0.8 }}
-                                className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
-                            >
-                                {stats.map((stat) => (
-                                    <div key={stat.label} className="text-center space-y-2">
-                                        <div className="text-3xl md:text-4xl font-bold text-accent">
-                                            {stat.value}
-                                        </div>
-                                        <div className="text-sm text-muted-foreground uppercase tracking-wide">
-                                            {stat.label}
-                                        </div>
-                                    </div>
-                                ))}
-                            </motion.div>
-
-                            {/* QR Code Section */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 1 }}
-                                className="pt-8"
-                            >
-                                <QRBlock />
-                            </motion.div>
+                                    <QRBlock />
+                                </motion.div>
                             </motion.div>
                         </>
                     )}
