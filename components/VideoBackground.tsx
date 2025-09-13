@@ -25,7 +25,13 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
         useImperativeHandle(ref, () => ({
             play: () => {
                 const video = videoRef.current;
-                console.log("Video play called, video:", video, "isLoaded:", isLoaded);
+                console.log("Video play called, video:", video, "isLoaded:", isLoaded, "videoEnded:", videoEnded);
+
+                // Don't play if video has already ended
+                if (videoEnded) {
+                    console.log("Video has already ended, not playing again");
+                    return;
+                }
 
                 if (video) {
                     // Force video to be ready for playback
@@ -45,13 +51,15 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                                 const retryAttempts = [500, 1000, 2000, 3000];
                                 retryAttempts.forEach((delay, index) => {
                                     setTimeout(() => {
-                                        console.log(`Retry attempt ${index + 1} after ${delay}ms`);
-                                        video.play().then(() => {
-                                            setHasPlayed(true);
-                                            console.log(`Video started playing on retry ${index + 1}`);
-                                        }).catch((retryError) => {
-                                            console.warn(`Retry ${index + 1} failed:`, retryError);
-                                        });
+                                        if (!videoEnded) { // Check again before retry
+                                            console.log(`Retry attempt ${index + 1} after ${delay}ms`);
+                                            video.play().then(() => {
+                                                setHasPlayed(true);
+                                                console.log(`Video started playing on retry ${index + 1}`);
+                                            }).catch((retryError) => {
+                                                console.warn(`Retry ${index + 1} failed:`, retryError);
+                                            });
+                                        }
                                     }, delay);
                                 });
                             });
@@ -79,17 +87,21 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             const handleLoadedData = () => {
                 setIsLoaded(true);
                 console.log("Video loaded successfully");
-                // Try to play automatically when loaded
-                video.play().catch((error) => {
-                    console.warn("Auto-play failed:", error);
-                });
+                // Only try to play if video hasn't ended and hasn't played yet
+                if (!videoEnded && !hasPlayed) {
+                    video.play().catch((error) => {
+                        console.warn("Auto-play failed:", error);
+                    });
+                }
             };
 
             const handleUserInteraction = () => {
-                console.log("User interaction detected - attempting to play video");
-                video.play().catch((error) => {
-                    console.warn("User interaction play failed:", error);
-                });
+                if (!videoEnded && !hasPlayed) {
+                    console.log("User interaction detected - attempting to play video");
+                    video.play().catch((error) => {
+                        console.warn("User interaction play failed:", error);
+                    });
+                }
             };
 
             const handleError = () => {
@@ -104,10 +116,12 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
 
             const handleCanPlay = () => {
                 console.log("Video can play");
-                // Try to play when video is ready
-                video.play().catch((error) => {
-                    console.warn("Can play auto-play failed:", error);
-                });
+                // Only try to play if video hasn't ended and hasn't played yet
+                if (!videoEnded && !hasPlayed) {
+                    video.play().catch((error) => {
+                        console.warn("Can play auto-play failed:", error);
+                    });
+                }
             };
 
             const handleVideoEnd = () => {
@@ -145,7 +159,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 video.removeEventListener("play", handlePlay);
                 video.removeEventListener("ended", handleVideoEnd);
             };
-        }, [backgroundMusicSrc]);
+        }, [backgroundMusicSrc, hasPlayed, videoEnded]);
 
         return (
             <div className={`fixed inset-0 w-screen h-screen overflow-hidden ${className}`}>
