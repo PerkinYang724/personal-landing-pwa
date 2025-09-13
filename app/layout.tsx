@@ -28,6 +28,11 @@ export const metadata: Metadata = {
   keywords: ["content creator", "student entrepreneur", "storytelling", "technology", "design", "AI", "cinematic", "YouTube", "creative projects"],
   authors: [{ name: "Perkin" }],
   creator: "Perkin",
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",

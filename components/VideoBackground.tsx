@@ -144,48 +144,48 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     if (loopVideoSrc) {
                         console.log("Switching to loop video:", loopVideoSrc);
                         setCurrentVideoSrc(loopVideoSrc);
-                        
+
                         // Remove old event listeners first
                         video.removeEventListener("loadeddata", handleLoadedData);
                         video.removeEventListener("canplay", handleCanPlay);
                         video.removeEventListener("error", handleError);
                         video.removeEventListener("play", handlePlay);
                         video.removeEventListener("ended", handleVideoEnd);
-                        
+
                         // Clear existing sources and add new one
                         video.innerHTML = '';
                         const source = document.createElement('source');
                         source.src = loopVideoSrc;
                         source.type = 'video/mp4';
                         video.appendChild(source);
-                        
+
                         // Add fallback text
                         video.appendChild(document.createTextNode('Your browser does not support the video tag.'));
-                        
+
                         // Update poster to the correct one
                         video.poster = poster || '';
-                        
+
                         video.load();
-                        
+
                         // Add new event listeners for the loop video
                         const handleLoopVideoLoaded = () => {
                             console.log("Loop video loaded successfully");
                             setIsLoaded(true);
                         };
-                        
+
                         const handleLoopVideoCanPlay = () => {
                             console.log("Loop video can play");
                             setIsLoaded(true);
                         };
-                        
+
                         const handleLoopVideoError = (e: Event) => {
                             console.warn("Loop video error:", e);
                         };
-                        
+
                         video.addEventListener('loadeddata', handleLoopVideoLoaded);
                         video.addEventListener('canplay', handleLoopVideoCanPlay);
                         video.addEventListener('error', handleLoopVideoError);
-                        
+
                         console.log("Loop video loaded and ready to play");
                     }
 
@@ -196,7 +196,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
 
                     // Force video to be visible and play
                     setIsLoaded(true);
-                    
+
                     // Wait a bit for the video to load before playing
                     setTimeout(() => {
                         video.play().then(() => {
