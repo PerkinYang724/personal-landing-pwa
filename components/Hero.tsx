@@ -42,7 +42,7 @@ export function Hero() {
     return (
         <section className="relative min-h-screen flex items-center justify-center text-center">
             <FilmGrain />
-            <div className="absolute inset-0 bg-gradient-cinematic opacity-70 z-0 vignette"></div>
+            <div className="absolute inset-0 bg-gradient-cinematic opacity-30 z-0 vignette"></div>
 
             <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 min-h-screen flex flex-col justify-center">
                 <AnimatePresence mode="wait">
@@ -133,7 +133,7 @@ export function Hero() {
                                 ref={videoRef}
                                 videoSrc="/videos/hero-background.mp4"
                                 poster="/images/hero-poster.jpg"
-                                className="z-0"
+                                className="z-[-1]"
                             />
 
                             <motion.div
@@ -234,13 +234,13 @@ export function Hero() {
                                     </motion.div>
                                 </motion.div>
 
-                            {/* Stats */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 1.4 }}
-                                className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12 pb-8"
-                            >
+                                {/* Stats */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 1.4 }}
+                                    className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12 pb-8"
+                                >
                                     {stats.map((stat, index) => (
                                         <motion.div
                                             key={stat.label}
@@ -264,32 +264,32 @@ export function Hero() {
                                     ))}
                                 </motion.div>
 
-                            {/* QR Code Section */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 1 }}
-                                className="pt-8 pb-16"
-                            >
-                                <QRBlock />
-                            </motion.div>
-
-                            {/* Scroll Indicator */}
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.8, delay: 2 }}
-                                className="flex flex-col items-center space-y-2 text-muted-foreground"
-                            >
-                                <div className="text-sm">Scroll to explore more</div>
+                                {/* QR Code Section */}
                                 <motion.div
-                                    animate={{ y: [0, 8, 0] }}
-                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                    className="w-6 h-10 border-2 border-accent/50 rounded-full flex justify-center"
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.8, delay: 1 }}
+                                    className="pt-8 pb-16"
                                 >
-                                    <div className="w-1 h-3 bg-accent rounded-full mt-2"></div>
+                                    <QRBlock />
                                 </motion.div>
-                            </motion.div>
+
+                                {/* Scroll Indicator */}
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 0.8, delay: 2 }}
+                                    className="flex flex-col items-center space-y-2 text-muted-foreground"
+                                >
+                                    <div className="text-sm">Scroll to explore more</div>
+                                    <motion.div
+                                        animate={{ y: [0, 8, 0] }}
+                                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                        className="w-6 h-10 border-2 border-accent/50 rounded-full flex justify-center"
+                                    >
+                                        <div className="w-1 h-3 bg-accent rounded-full mt-2"></div>
+                                    </motion.div>
+                                </motion.div>
                             </motion.div>
                         </>
                     )}

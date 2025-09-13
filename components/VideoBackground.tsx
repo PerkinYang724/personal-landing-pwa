@@ -74,10 +74,10 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
         }, []);
 
         return (
-            <div className={`fixed inset-0 w-full h-full overflow-hidden ${className}`}>
+            <div className={`fixed inset-0 w-screen h-screen overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                    className={`transition-opacity duration-1000 ${
                         isLoaded ? "opacity-100" : "opacity-0"
                     }`}
                     muted
@@ -85,11 +85,14 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     playsInline
                     poster={poster}
                     style={{
-                        minWidth: '100vw',
-                        minHeight: '100vh',
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover'
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh',
+                        objectFit: 'cover',
+                        objectPosition: 'center center',
+                        zIndex: -1
                     }}
                 >
                     <source src={videoSrc} type="video/mp4" />
@@ -99,13 +102,15 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 {/* Fallback poster image */}
                 {poster && !isLoaded && (
                     <div
-                        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+                        className="bg-cover bg-center bg-no-repeat"
                         style={{ 
+                            position: 'fixed',
+                            top: 0,
+                            left: 0,
+                            width: '100vw',
+                            height: '100vh',
                             backgroundImage: `url(${poster})`,
-                            minWidth: '100vw',
-                            minHeight: '100vh',
-                            width: '100%',
-                            height: '100%'
+                            zIndex: -1
                         }}
                     />
                 )}
