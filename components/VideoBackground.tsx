@@ -144,40 +144,42 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     if (loopVideoSrc) {
                         console.log("Switching to loop video:", loopVideoSrc);
                         setCurrentVideoSrc(loopVideoSrc);
-                        
+
                         // Clear existing sources and add new one
                         video.innerHTML = '';
                         const source = document.createElement('source');
                         source.src = loopVideoSrc;
                         source.type = 'video/mp4';
                         video.appendChild(source);
-                        
+
                         // Add fallback text
                         video.appendChild(document.createTextNode('Your browser does not support the video tag.'));
-                        
+
                         video.load();
-                        
+
                         // Add event listeners for the new video
                         video.addEventListener('loadeddata', () => {
                             console.log("Loop video loaded successfully");
+                            setIsLoaded(true);
                         });
                         
                         video.addEventListener('canplay', () => {
                             console.log("Loop video can play");
+                            setIsLoaded(true);
                         });
-                        
+
                         video.addEventListener('error', (e) => {
                             console.warn("Loop video error:", e);
                         });
-                        
+
                         console.log("Loop video loaded and ready to play");
                     }
-                    
+
                     // Mute the video and let it loop silently
                     video.muted = true;
                     video.loop = true;
                     video.currentTime = 0;
-                    
+
                     // Wait a bit for the video to load before playing
                     setTimeout(() => {
                         video.play().then(() => {
@@ -186,7 +188,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                             console.warn("Loop video play failed:", error);
                         });
                     }, 500);
-                    
+
                     console.log("Video muted and set to loop silently");
                 }
 

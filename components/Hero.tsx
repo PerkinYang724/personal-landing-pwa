@@ -138,7 +138,7 @@ export function Hero() {
                                 videoSrc="/videos/hero-background.mp4"
                                 loopVideoSrc="/videos/gen back.mp4"
                                 backgroundMusicSrc="/audio/background music.mp3"
-                                poster="/images/hero-poster.jpg"
+                                poster="/images/hero-poster.svg"
                                 className="z-[-1]"
                                 onVideoEnd={handleVideoEnd}
                             />
