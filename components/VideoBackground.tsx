@@ -126,14 +126,28 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
 
             const handleVideoEnd = () => {
                 console.log("Video ended, starting background music");
+                console.log("backgroundMusicSrc:", backgroundMusicSrc);
+                console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
                 const audio = audioRef.current;
                 if (audio && backgroundMusicSrc) {
+                    console.log("Attempting to play background music...");
                     audio.play().then(() => {
-                        console.log("Background music started playing");
+                        console.log("Background music started playing successfully");
                     }).catch((error) => {
                         console.warn("Background music play failed:", error);
+                        // Try to play again after a short delay
+                        setTimeout(() => {
+                            console.log("Retrying background music play...");
+                            audio.play().catch((retryError) => {
+                                console.warn("Background music retry failed:", retryError);
+                            });
+                        }, 1000);
                     });
+                } else {
+                    console.warn("Cannot play background music - audio element or source missing");
+                    console.log("audio element:", audio);
+                    console.log("backgroundMusicSrc:", backgroundMusicSrc);
                 }
             };
 
@@ -192,6 +206,9 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                         loop
                         preload="auto"
                         style={{ display: 'none' }}
+                        onLoadedData={() => console.log("Background music loaded successfully")}
+                        onCanPlay={() => console.log("Background music can play")}
+                        onError={(e) => console.warn("Background music error:", e)}
                     >
                         <source src={backgroundMusicSrc} type="audio/mpeg" />
                         Your browser does not support the audio element.
@@ -217,7 +234,10 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 {/* Debug info */}
                 {process.env.NODE_ENV === 'development' && (
                     <div className="absolute top-4 left-4 text-white text-xs bg-black/50 p-2 rounded">
-                        Video: {isLoaded ? 'Loaded' : 'Loading...'} | Played: {hasPlayed ? 'Yes' : 'No'}
+                        <div>Video: {isLoaded ? 'Loaded' : 'Loading...'} | Played: {hasPlayed ? 'Yes' : 'No'}</div>
+                        <div>Video Ended: {videoEnded ? 'Yes' : 'No'}</div>
+                        <div>Audio Source: {backgroundMusicSrc ? 'Set' : 'Not Set'}</div>
+                        <div>Audio Element: {audioRef.current ? 'Ready' : 'Not Ready'}</div>
                     </div>
                 )}
 

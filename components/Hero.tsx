@@ -155,7 +155,7 @@ export function Hero() {
                             <VideoBackground
                                 ref={videoRef}
                                 videoSrc="/videos/hero-background.mp4"
-                                backgroundMusicSrc="/audio/background music.mp3"
+                                backgroundMusicSrc="/audio/hero-background.mp3"
                                 poster="/images/hero-poster.jpg"
                                 className="z-[-1]"
                             />
