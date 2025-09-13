@@ -23,7 +23,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
         const [isLoaded, setIsLoaded] = useState(false);
         const [hasPlayed, setHasPlayed] = useState(false);
         const [videoEnded, setVideoEnded] = useState(false);
-        const [isLooping, setIsLooping] = useState(false);
+        const [currentVideoSrc, setCurrentVideoSrc] = useState(videoSrc);
 
         useImperativeHandle(ref, () => ({
             play: () => {
@@ -128,7 +128,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             };
 
             const handleVideoEnd = () => {
-                console.log("Video ended, muting video and starting background music");
+                console.log("Video ended, switching to loop video and starting background music");
                 console.log("backgroundMusicSrc:", backgroundMusicSrc);
                 console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
@@ -138,27 +138,22 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     onVideoEnd();
                 }
 
-                // Switch to loop video if provided, otherwise mute and loop current video
+                // Switch to loop video if provided
                 const video = videoRef.current;
                 if (video) {
-                    setIsLooping(true); // Set looping state for transparency
                     if (loopVideoSrc) {
-                        // Switch to the loop video
+                        console.log("Switching to loop video:", loopVideoSrc);
+                        setCurrentVideoSrc(loopVideoSrc);
                         video.src = loopVideoSrc;
-                        video.muted = true;
-                        video.loop = true;
-                        video.currentTime = 0;
                         video.load();
-                        video.play().catch(console.warn);
-                        console.log("Switched to loop video:", loopVideoSrc);
-                    } else {
-                        // Fallback: mute and loop current video
-                        video.muted = true;
-                        video.loop = true;
-                        video.currentTime = 0;
-                        video.play().catch(console.warn);
-                        console.log("Video muted and set to loop silently");
                     }
+                    
+                    // Mute the video and let it loop silently
+                    video.muted = true;
+                    video.loop = true;
+                    video.currentTime = 0;
+                    video.play().catch(console.warn);
+                    console.log("Video muted and set to loop silently");
                 }
 
                 // Start background music immediately
@@ -225,11 +220,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             <div className={`fixed inset-0 w-screen h-screen overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
-                    className={`transition-opacity duration-1000 ${
-                        isLoaded 
-                            ? (isLooping ? "opacity-30" : "opacity-100") 
-                            : "opacity-0"
-                    }`}
+                    className={`transition-opacity duration-1000 ${isLoaded ? (videoEnded ? "opacity-30" : "opacity-100") : "opacity-0"
+                        }`}
                     playsInline
                     poster={poster}
                     style={{
@@ -244,7 +236,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                         pointerEvents: 'none'
                     }}
                 >
-                    <source src={videoSrc} type="video/mp4" />
+                    <source src={currentVideoSrc} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
 
