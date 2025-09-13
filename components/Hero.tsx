@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, Briefcase } from "lucide-react";
 import { FilmGrain } from "./FilmGrain";
 import { QRBlock } from "./QRBlock";
 import { VideoBackground, VideoBackgroundRef } from "./VideoBackground";
@@ -22,6 +22,10 @@ export function Hero() {
 
     const scrollToWork = () => {
         document.getElementById("work")?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    const scrollToStartup = () => {
+        document.getElementById("startup")?.scrollIntoView({ behavior: "smooth" });
     };
 
     const handleEnterMainInterface = () => {
@@ -222,6 +226,21 @@ export function Hero() {
                                     transition={{ duration: 0.8, delay: 1.2 }}
                                     className="flex flex-col sm:flex-row gap-4 justify-center items-center"
                                 >
+                                    <motion.div
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                    >
+                                        <Button
+                                            onClick={scrollToStartup}
+                                            size="lg"
+                                            className="bg-accent hover:bg-accent/90 text-white px-8 py-6 text-lg font-semibold group shadow-2xl hover:shadow-2xl transition-all duration-300 backdrop-blur-sm"
+                                        >
+                                            <Briefcase className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
+                                            {t("hero.startup")}
+                                        </Button>
+                                    </motion.div>
+
                                     <motion.div
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

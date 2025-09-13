@@ -31,6 +31,7 @@ const translations = {
         "hero.enter": "Enter My World",
         "hero.explore": "Explore My Work",
         "hero.watch": "Watch My Story",
+        "hero.startup": "Startup Project",
 
         // Stats
         "stats.videos": "Videos Produced",
@@ -67,6 +68,7 @@ const translations = {
         "hero.enter": "進入我的世界",
         "hero.explore": "探索我的作品",
         "hero.watch": "觀看我的故事",
+        "hero.startup": "創業專案",
 
         // Stats
         "stats.videos": "影片製作",
