@@ -59,12 +59,12 @@ const translations = {
         "nav.contact": "聯絡",
 
         // Hero Section
-        "hero.welcome": "歡迎來到我的頁面",
+        "hero.welcome": "歡迎來到我的世界",
         "hero.greeting": "你好，我是",
         "hero.name": "Perkin",
         "hero.tagline": "✨ 學生創業者 • 創作者 • 故事講述者",
-        "hero.bio1": "我融合故事敘述、技術和設計，將想法轉化為引起共鳴的故事。",
-        "hero.bio2": "透過電影般的短片、YouTube 功能和創意實驗，我分享作為學生創業者的建構旅程——探索 AI 和創意如何塑造未來。",
+        "hero.bio1": "我積極融合故事敘述、技術和設計，將想法轉化為引起共鳴的故事。",
+        "hero.bio2": "透過電影般的短片、YouTube影片和創意實驗，我分享作為學生創業者的建構旅程——探索AI和創意如何塑造未來。",
         "hero.enter": "進入我的世界",
         "hero.explore": "探索我的作品",
         "hero.watch": "觀看我的故事",

@@ -7,6 +7,7 @@ interface VideoBackgroundProps {
     backgroundMusicSrc?: string;
     poster?: string;
     className?: string;
+    onVideoEnd?: () => void;
 }
 
 export interface VideoBackgroundRef {
@@ -15,7 +16,7 @@ export interface VideoBackgroundRef {
 }
 
 export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundProps>(
-    function VideoBackground({ videoSrc, backgroundMusicSrc, poster, className = "" }, ref) {
+    function VideoBackground({ videoSrc, backgroundMusicSrc, poster, className = "", onVideoEnd }, ref) {
         const videoRef = useRef<HTMLVideoElement>(null);
         const audioRef = useRef<HTMLAudioElement>(null);
         const [isLoaded, setIsLoaded] = useState(false);
@@ -130,6 +131,11 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
                 
+                // Call the onVideoEnd callback if provided
+                if (onVideoEnd) {
+                    onVideoEnd();
+                }
+
                 // Mute the video and let it loop silently
                 const video = videoRef.current;
                 if (video) {
@@ -139,7 +145,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     video.play().catch(console.warn);
                     console.log("Video muted and set to loop silently");
                 }
-                
+
                 // Start background music immediately
                 const audio = audioRef.current;
                 if (audio && backgroundMusicSrc) {
@@ -148,10 +154,10 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     console.log("Audio element readyState:", audio.readyState);
                     console.log("Audio element paused:", audio.paused);
                     console.log("Audio element currentTime:", audio.currentTime);
-                    
+
                     // Set volume to make sure it's audible
                     audio.volume = 0.7;
-                    
+
                     // Try to play immediately
                     audio.play().then(() => {
                         console.log("Background music started playing successfully");
@@ -198,7 +204,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 video.removeEventListener("play", handlePlay);
                 video.removeEventListener("ended", handleVideoEnd);
             };
-        }, [backgroundMusicSrc, hasPlayed, videoEnded]);
+        }, [backgroundMusicSrc, hasPlayed, videoEnded, onVideoEnd]);
 
         return (
             <div className={`fixed inset-0 w-screen h-screen overflow-hidden ${className}`}>

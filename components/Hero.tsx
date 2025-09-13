@@ -11,6 +11,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 export function Hero() {
     const [showMainInterface, setShowMainInterface] = useState(false);
+    const [showBioAfterVideo, setShowBioAfterVideo] = useState(false);
     const { t } = useLanguage();
     const videoRef = useRef<VideoBackgroundRef>(null);
 
@@ -35,6 +36,11 @@ export function Hero() {
             console.log("Button clicked - attempting to play video immediately...");
             videoRef.current?.play();
         }, 100);
+    };
+
+    const handleVideoEnd = () => {
+        console.log("Video ended - showing bio text animation");
+        setShowBioAfterVideo(true);
     };
 
     // Auto-play video when main interface is shown
@@ -100,37 +106,12 @@ export function Hero() {
                                 </motion.div>
                             </motion.div>
 
-                            {/* Second Animation: Rest of the paragraph (after 2 seconds) */}
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 2 }}
-                                className="text-lg md:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed space-y-4 drop-shadow-lg"
-                            >
-                                {t("hero.bio1") && (
-                                    <motion.p
-                                        initial={{ opacity: 0, y: 15 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.6, delay: 2.2 }}
-                                        className="font-medium text-white drop-shadow-lg"
-                                    >
-                                        {t("hero.bio1")}
-                                    </motion.p>
-                                )}
-                                <motion.p
-                                    initial={{ opacity: 0, y: 15 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.6, delay: 2.4 }}
-                                >
-                                    {t("hero.bio2")}
-                                </motion.p>
-                            </motion.div>
 
-                            {/* Third Animation: Enter button (after paragraph) */}
+                            {/* Third Animation: Enter button */}
                             <motion.div
                                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
                                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                                transition={{ duration: 0.8, delay: 3.5, ease: "easeOut" }}
+                                transition={{ duration: 0.8, delay: 1.5, ease: "easeOut" }}
                                 className="flex justify-center"
                             >
                                 <motion.div
@@ -158,6 +139,7 @@ export function Hero() {
                                 backgroundMusicSrc="/audio/background music.mp3"
                                 poster="/images/hero-poster.jpg"
                                 className="z-[-1]"
+                                onVideoEnd={handleVideoEnd}
                             />
 
                             <motion.div
@@ -194,30 +176,43 @@ export function Hero() {
                                         </motion.div>
                                     </motion.div>
 
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.8, delay: 0.6 }}
-                                        className="text-lg md:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed space-y-4 drop-shadow-lg"
-                                    >
-                                        {t("hero.bio1") && (
-                                            <motion.p
-                                                initial={{ opacity: 0, y: 15 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.6, delay: 0.8 }}
-                                                className="font-medium text-white drop-shadow-lg"
+                                    {/* Bio text animation after video ends */}
+                                    <AnimatePresence>
+                                        {showBioAfterVideo && (
+                                            <motion.div
+                                                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                exit={{ opacity: 0, y: -20, scale: 0.95 }}
+                                                transition={{ 
+                                                    duration: 1.2, 
+                                                    ease: "easeOut",
+                                                    type: "spring",
+                                                    stiffness: 100,
+                                                    damping: 15
+                                                }}
+                                                className="text-lg md:text-xl text-white/90 max-w-4xl mx-auto leading-relaxed space-y-4 drop-shadow-lg mb-8"
                                             >
-                                                {t("hero.bio1")}
-                                            </motion.p>
+                                                {t("hero.bio1") && (
+                                                    <motion.p
+                                                        initial={{ opacity: 0, y: 20 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ duration: 0.8, delay: 0.2 }}
+                                                        className="font-medium text-white drop-shadow-lg"
+                                                    >
+                                                        {t("hero.bio1")}
+                                                    </motion.p>
+                                                )}
+                                                <motion.p
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    transition={{ duration: 0.8, delay: 0.4 }}
+                                                >
+                                                    {t("hero.bio2")}
+                                                </motion.p>
+                                            </motion.div>
                                         )}
-                                        <motion.p
-                                            initial={{ opacity: 0, y: 15 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.6, delay: 1.0 }}
-                                        >
-                                            {t("hero.bio2")}
-                                        </motion.p>
-                                    </motion.div>
+                                    </AnimatePresence>
+
                                 </div>
 
                                 {/* CTA Buttons */}
