@@ -129,17 +129,39 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 console.log("backgroundMusicSrc:", backgroundMusicSrc);
                 console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
+                
+                // Mute the video and let it loop silently
+                const video = videoRef.current;
+                if (video) {
+                    video.muted = true;
+                    video.loop = true;
+                    video.currentTime = 0;
+                    video.play().catch(console.warn);
+                }
+                
                 const audio = audioRef.current;
                 if (audio && backgroundMusicSrc) {
                     console.log("Attempting to play background music...");
+                    console.log("Audio element src:", audio.src);
+                    console.log("Audio element readyState:", audio.readyState);
+                    console.log("Audio element paused:", audio.paused);
+                    console.log("Audio element currentTime:", audio.currentTime);
+                    
+                    // Set volume to make sure it's audible
+                    audio.volume = 0.7;
+                    
                     audio.play().then(() => {
                         console.log("Background music started playing successfully");
+                        console.log("Audio element playing:", !audio.paused);
+                        console.log("Audio element currentTime after play:", audio.currentTime);
                     }).catch((error) => {
                         console.warn("Background music play failed:", error);
                         // Try to play again after a short delay
                         setTimeout(() => {
                             console.log("Retrying background music play...");
-                            audio.play().catch((retryError) => {
+                            audio.play().then(() => {
+                                console.log("Background music retry successful");
+                            }).catch((retryError) => {
                                 console.warn("Background music retry failed:", retryError);
                             });
                         }, 1000);
