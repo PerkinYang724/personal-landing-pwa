@@ -24,14 +24,17 @@ export function Hero() {
     ];
 
     const scrollToWork = () => {
+        console.log("Explore My Work button clicked - navigating to /work");
         router.push("/work");
     };
 
     const scrollToStartup = () => {
-        document.getElementById("startup")?.scrollIntoView({ behavior: "smooth" });
+        console.log("Startup Project button clicked - navigating to /startup");
+        router.push("/startup");
     };
 
     const handleEnterMainInterface = () => {
+        console.log("Enter My World button clicked - showing main interface");
         setShowMainInterface(true);
         // Immediately try to play video when button is clicked
         setTimeout(() => {
