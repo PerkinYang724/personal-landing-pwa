@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "re
 
 interface VideoBackgroundProps {
     videoSrc: string;
+    audioSrc?: string;
     poster?: string;
     className?: string;
 }
@@ -14,26 +15,38 @@ export interface VideoBackgroundRef {
 }
 
 export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundProps>(
-    function VideoBackground({ videoSrc, poster, className = "" }, ref) {
+    function VideoBackground({ videoSrc, audioSrc, poster, className = "" }, ref) {
         const videoRef = useRef<HTMLVideoElement>(null);
+        const audioRef = useRef<HTMLAudioElement>(null);
         const [isLoaded, setIsLoaded] = useState(false);
         const [hasPlayed, setHasPlayed] = useState(false);
 
         useImperativeHandle(ref, () => ({
             play: () => {
                 const video = videoRef.current;
-                console.log("Video play called, video:", video, "isLoaded:", isLoaded);
+                const audio = audioRef.current;
+                console.log("Video play called, video:", video, "audio:", audio, "isLoaded:", isLoaded);
+                
                 if (video) {
                     // Force video to be ready for playback
                     video.load();
-
-                    // Try to play immediately
-                    const playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise
+                    
+                    // Try to play video immediately
+                    const videoPromise = video.play();
+                    if (videoPromise !== undefined) {
+                        videoPromise
                             .then(() => {
                                 setHasPlayed(true);
                                 console.log("Video started playing successfully");
+                                
+                                // Play audio if available
+                                if (audio) {
+                                    audio.play().then(() => {
+                                        console.log("Audio started playing successfully");
+                                    }).catch((audioError) => {
+                                        console.warn("Audio play failed:", audioError);
+                                    });
+                                }
                             })
                             .catch((error) => {
                                 console.warn("Video play failed:", error);
@@ -45,6 +58,11 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                                         video.play().then(() => {
                                             setHasPlayed(true);
                                             console.log(`Video started playing on retry ${index + 1}`);
+                                            
+                                            // Play audio on retry
+                                            if (audio) {
+                                                audio.play().catch(console.warn);
+                                            }
                                         }).catch((retryError) => {
                                             console.warn(`Retry ${index + 1} failed:`, retryError);
                                         });
@@ -58,8 +76,12 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             },
             pause: () => {
                 const video = videoRef.current;
+                const audio = audioRef.current;
                 if (video) {
                     video.pause();
+                }
+                if (audio) {
+                    audio.pause();
                 }
             }
         }));
@@ -149,6 +171,19 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     <source src={videoSrc} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
+
+                {/* Audio element for background music */}
+                {audioSrc && (
+                    <audio
+                        ref={audioRef}
+                        loop
+                        preload="auto"
+                        style={{ display: 'none' }}
+                    >
+                        <source src={audioSrc} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                    </audio>
+                )}
 
                 {/* Fallback poster image */}
                 {poster && !isLoaded && (
