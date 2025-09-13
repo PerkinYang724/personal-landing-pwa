@@ -77,9 +77,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             <div className={`absolute inset-0 overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-                        isLoaded && hasPlayed ? "opacity-100" : "opacity-0"
-                    }`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isLoaded && hasPlayed ? "opacity-100" : "opacity-0"
+                        }`}
                     muted
                     loop
                     playsInline

@@ -55,9 +55,19 @@ export function Hero() {
                                 transition={{ duration: 1, ease: "easeOut" }}
                                 className="text-center"
                             >
-                                <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-6">
+                                <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-4">
                                     {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
                                 </div>
+                                
+                                {/* Tagline with special animation */}
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                                    transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                                    className="text-lg md:text-xl text-accent font-medium tracking-wide mb-6"
+                                >
+                                    {t("hero.tagline")}
+                                </motion.div>
                             </motion.div>
 
                             {/* Second Animation: Rest of the paragraph (after 2 seconds) */}
@@ -68,30 +78,45 @@ export function Hero() {
                                 className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
                             >
                                 {t("hero.bio1") && (
-                                    <p>
+                                    <motion.p
+                                        initial={{ opacity: 0, y: 15 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.6, delay: 2.2 }}
+                                        className="font-medium text-foreground/90"
+                                    >
                                         {t("hero.bio1")}
-                                    </p>
+                                    </motion.p>
                                 )}
-                                <p>
+                                <motion.p
+                                    initial={{ opacity: 0, y: 15 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.6, delay: 2.4 }}
+                                >
                                     {t("hero.bio2")}
-                                </p>
+                                </motion.p>
                             </motion.div>
 
                             {/* Third Animation: Enter button (after paragraph) */}
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8, delay: 3.5 }}
+                                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                                animate={{ opacity: 1, y: 0, scale: 1 }}
+                                transition={{ duration: 0.8, delay: 3.5, ease: "easeOut" }}
                                 className="flex justify-center"
                             >
-                                <Button
-                                    onClick={handleEnterMainInterface}
-                                    size="lg"
-                                    className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group"
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                 >
-                                    {t("hero.enter")}
-                                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                                </Button>
+                                    <Button
+                                        onClick={handleEnterMainInterface}
+                                        size="lg"
+                                        className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group shadow-lg hover:shadow-xl transition-all duration-300"
+                                    >
+                                        {t("hero.enter")}
+                                        <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                                    </Button>
+                                </motion.div>
                             </motion.div>
                         </motion.div>
                     ) : (
@@ -114,81 +139,123 @@ export function Hero() {
                             >
                                 {/* Main Heading */}
                                 <div className="space-y-6">
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.8, delay: 0.2 }}
-                                        className="text-center"
-                                    >
-                                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4">
-                                            <span className="text-gradient">{t("hero.welcome")}</span>
-                                        </h1>
-                                        <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-6">
-                                            {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
-                                        </div>
-                                    </motion.div>
-
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.8, delay: 0.4 }}
-                                        className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
-                                    >
-                                        {t("hero.bio1") && (
-                                            <p>
-                                                {t("hero.bio1")}
-                                            </p>
-                                        )}
-                                        <p>
-                                            {t("hero.bio2")}
-                                        </p>
-                                    </motion.div>
-                                </div>
-
-                                {/* CTA Buttons */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.6 }}
-                                    className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                                    transition={{ duration: 0.8, delay: 0.2 }}
+                                    className="text-center"
+                                >
+                                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold leading-tight mb-4">
+                                        <span className="text-gradient">{t("hero.welcome")}</span>
+                                    </h1>
+                                    <div className="text-2xl md:text-3xl lg:text-4xl font-display font-semibold text-foreground/90 mb-4">
+                                        {t("hero.greeting")} <span className="text-foreground/90">{t("hero.name")}</span>
+                                    </div>
+                                    
+                                    {/* Tagline in main interface */}
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+                                        className="text-lg md:text-xl text-accent font-medium tracking-wide mb-6"
+                                    >
+                                        {t("hero.tagline")}
+                                    </motion.div>
+                                </motion.div>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.8, delay: 0.6 }}
+                                        className="text-lg md:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed space-y-4"
+                                    >
+                                        {t("hero.bio1") && (
+                                            <motion.p
+                                                initial={{ opacity: 0, y: 15 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.6, delay: 0.8 }}
+                                                className="font-medium text-foreground/90"
+                                            >
+                                                {t("hero.bio1")}
+                                            </motion.p>
+                                        )}
+                                        <motion.p
+                                            initial={{ opacity: 0, y: 15 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.6, delay: 1.0 }}
+                                        >
+                                            {t("hero.bio2")}
+                                        </motion.p>
+                                    </motion.div>
+                                </div>
+
+                            {/* CTA Buttons */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 1.2 }}
+                                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                            >
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
                                 >
                                     <Button
                                         onClick={scrollToWork}
                                         size="lg"
-                                        className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group"
+                                        className="bg-accent hover:bg-accent/90 text-accent-foreground px-8 py-6 text-lg font-semibold group shadow-lg hover:shadow-xl transition-all duration-300"
                                     >
                                         {t("hero.explore")}
                                         <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
+                                </motion.div>
 
+                                <motion.div
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                >
                                     <Button
                                         variant="outline"
                                         size="lg"
-                                        className="border-accent/50 text-accent hover:bg-accent/10 px-8 py-6 text-lg font-semibold group"
+                                        className="border-accent/50 text-accent hover:bg-accent/10 px-8 py-6 text-lg font-semibold group shadow-lg hover:shadow-xl transition-all duration-300"
                                     >
                                         <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                                         {t("hero.watch")}
                                     </Button>
                                 </motion.div>
+                            </motion.div>
 
-                                {/* Stats */}
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.8, delay: 0.8 }}
-                                    className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
-                                >
-                                    {stats.map((stat) => (
-                                        <div key={stat.label} className="text-center space-y-2">
-                                            <div className="text-3xl md:text-4xl font-bold text-accent">
-                                                {stat.value}
-                                            </div>
-                                            <div className="text-sm text-muted-foreground uppercase tracking-wide">
-                                                {stat.label}
-                                            </div>
+                            {/* Stats */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.8, delay: 1.4 }}
+                                className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-2xl mx-auto pt-12"
+                            >
+                                {stats.map((stat, index) => (
+                                    <motion.div
+                                        key={stat.label}
+                                        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                        transition={{ 
+                                            duration: 0.6, 
+                                            delay: 1.6 + (index * 0.1),
+                                            ease: "easeOut"
+                                        }}
+                                        whileHover={{ scale: 1.05 }}
+                                        className="text-center space-y-2 p-4 rounded-lg hover:bg-foreground/5 transition-all duration-300"
+                                    >
+                                        <div className="text-3xl md:text-4xl font-bold text-accent">
+                                            {stat.value}
                                         </div>
-                                    ))}
-                                </motion.div>
+                                        <div className="text-sm text-muted-foreground uppercase tracking-wide">
+                                            {stat.label}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </motion.div>
 
                                 {/* QR Code Section */}
                                 <motion.div
