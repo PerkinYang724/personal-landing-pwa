@@ -26,6 +26,11 @@ export function Hero() {
 
     const handleEnterMainInterface = () => {
         setShowMainInterface(true);
+        // Immediately try to play video when button is clicked
+        setTimeout(() => {
+            console.log("Button clicked - attempting to play video immediately...");
+            videoRef.current?.play();
+        }, 100);
     };
 
     // Auto-play video when main interface is shown
@@ -46,7 +51,7 @@ export function Hero() {
                     videoRef.current?.play();
                 }, 3000)
             ];
-            
+
             return () => {
                 timers.forEach(timer => clearTimeout(timer));
             };

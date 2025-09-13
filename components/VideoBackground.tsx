@@ -24,7 +24,10 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 const video = videoRef.current;
                 console.log("Video play called, video:", video, "isLoaded:", isLoaded);
                 if (video) {
-                    // Try to play even if not loaded yet
+                    // Force video to be ready for playback
+                    video.load();
+                    
+                    // Try to play immediately
                     const playPromise = video.play();
                     if (playPromise !== undefined) {
                         playPromise
@@ -34,10 +37,19 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                             })
                             .catch((error) => {
                                 console.warn("Video play failed:", error);
-                                // Try again after a short delay
-                                setTimeout(() => {
-                                    video.play().catch(console.warn);
-                                }, 1000);
+                                // Try multiple retry attempts
+                                const retryAttempts = [500, 1000, 2000, 3000];
+                                retryAttempts.forEach((delay, index) => {
+                                    setTimeout(() => {
+                                        console.log(`Retry attempt ${index + 1} after ${delay}ms`);
+                                        video.play().then(() => {
+                                            setHasPlayed(true);
+                                            console.log(`Video started playing on retry ${index + 1}`);
+                                        }).catch((retryError) => {
+                                            console.warn(`Retry ${index + 1} failed:`, retryError);
+                                        });
+                                    }, delay);
+                                });
                             });
                     }
                 } else {
@@ -65,6 +77,13 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 });
             };
 
+            const handleUserInteraction = () => {
+                console.log("User interaction detected - attempting to play video");
+                video.play().catch((error) => {
+                    console.warn("User interaction play failed:", error);
+                });
+            };
+
             const handleError = () => {
                 console.warn("Video failed to load, falling back to poster image");
                 setIsLoaded(false);
@@ -83,12 +102,21 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 });
             };
 
+            // Add user interaction listeners to the document
+            document.addEventListener("click", handleUserInteraction);
+            document.addEventListener("touchstart", handleUserInteraction);
+            document.addEventListener("keydown", handleUserInteraction);
+
             video.addEventListener("loadeddata", handleLoadedData);
             video.addEventListener("canplay", handleCanPlay);
             video.addEventListener("error", handleError);
             video.addEventListener("play", handlePlay);
 
             return () => {
+                document.removeEventListener("click", handleUserInteraction);
+                document.removeEventListener("touchstart", handleUserInteraction);
+                document.removeEventListener("keydown", handleUserInteraction);
+                
                 video.removeEventListener("loadeddata", handleLoadedData);
                 video.removeEventListener("canplay", handleCanPlay);
                 video.removeEventListener("error", handleError);
