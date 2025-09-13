@@ -74,7 +74,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
         }, []);
 
         return (
-            <div className={`absolute inset-0 overflow-hidden ${className}`}>
+            <div className={`fixed inset-0 w-full h-full overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
                     className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
@@ -84,6 +84,13 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     loop
                     playsInline
                     poster={poster}
+                    style={{
+                        minWidth: '100vw',
+                        minHeight: '100vh',
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                    }}
                 >
                     <source src={videoSrc} type="video/mp4" />
                     Your browser does not support the video tag.
@@ -93,7 +100,13 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 {poster && !isLoaded && (
                     <div
                         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
-                        style={{ backgroundImage: `url(${poster})` }}
+                        style={{ 
+                            backgroundImage: `url(${poster})`,
+                            minWidth: '100vw',
+                            minHeight: '100vh',
+                            width: '100%',
+                            height: '100%'
+                        }}
                     />
                 )}
 
