@@ -136,6 +136,7 @@ export function Hero() {
                             <VideoBackground
                                 ref={videoRef}
                                 videoSrc="/videos/hero-background.mp4"
+                                loopVideoSrc="/videos/gen back.mp4"
                                 backgroundMusicSrc="/audio/background music.mp3"
                                 poster="/images/hero-poster.jpg"
                                 className="z-[-1]"
@@ -183,8 +184,8 @@ export function Hero() {
                                                 initial={{ opacity: 0, y: 30, scale: 0.9 }}
                                                 animate={{ opacity: 1, y: 0, scale: 1 }}
                                                 exit={{ opacity: 0, y: -20, scale: 0.95 }}
-                                                transition={{ 
-                                                    duration: 1.2, 
+                                                transition={{
+                                                    duration: 1.2,
                                                     ease: "easeOut",
                                                     type: "spring",
                                                     stiffness: 100,

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "re
 
 interface VideoBackgroundProps {
     videoSrc: string;
+    loopVideoSrc?: string;
     backgroundMusicSrc?: string;
     poster?: string;
     className?: string;
@@ -16,12 +17,13 @@ export interface VideoBackgroundRef {
 }
 
 export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundProps>(
-    function VideoBackground({ videoSrc, backgroundMusicSrc, poster, className = "", onVideoEnd }, ref) {
+    function VideoBackground({ videoSrc, loopVideoSrc, backgroundMusicSrc, poster, className = "", onVideoEnd }, ref) {
         const videoRef = useRef<HTMLVideoElement>(null);
         const audioRef = useRef<HTMLAudioElement>(null);
         const [isLoaded, setIsLoaded] = useState(false);
         const [hasPlayed, setHasPlayed] = useState(false);
         const [videoEnded, setVideoEnded] = useState(false);
+        const [isLooping, setIsLooping] = useState(false);
 
         useImperativeHandle(ref, () => ({
             play: () => {
@@ -130,20 +132,33 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 console.log("backgroundMusicSrc:", backgroundMusicSrc);
                 console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
-                
+
                 // Call the onVideoEnd callback if provided
                 if (onVideoEnd) {
                     onVideoEnd();
                 }
 
-                // Mute the video and let it loop silently
+                // Switch to loop video if provided, otherwise mute and loop current video
                 const video = videoRef.current;
                 if (video) {
-                    video.muted = true;
-                    video.loop = true;
-                    video.currentTime = 0;
-                    video.play().catch(console.warn);
-                    console.log("Video muted and set to loop silently");
+                    setIsLooping(true); // Set looping state for transparency
+                    if (loopVideoSrc) {
+                        // Switch to the loop video
+                        video.src = loopVideoSrc;
+                        video.muted = true;
+                        video.loop = true;
+                        video.currentTime = 0;
+                        video.load();
+                        video.play().catch(console.warn);
+                        console.log("Switched to loop video:", loopVideoSrc);
+                    } else {
+                        // Fallback: mute and loop current video
+                        video.muted = true;
+                        video.loop = true;
+                        video.currentTime = 0;
+                        video.play().catch(console.warn);
+                        console.log("Video muted and set to loop silently");
+                    }
                 }
 
                 // Start background music immediately
@@ -204,14 +219,17 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 video.removeEventListener("play", handlePlay);
                 video.removeEventListener("ended", handleVideoEnd);
             };
-        }, [backgroundMusicSrc, hasPlayed, videoEnded, onVideoEnd]);
+        }, [backgroundMusicSrc, hasPlayed, videoEnded, onVideoEnd, loopVideoSrc]);
 
         return (
             <div className={`fixed inset-0 w-screen h-screen overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
-                    className={`transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"
-                        }`}
+                    className={`transition-opacity duration-1000 ${
+                        isLoaded 
+                            ? (isLooping ? "opacity-30" : "opacity-100") 
+                            : "opacity-0"
+                    }`}
                     playsInline
                     poster={poster}
                     style={{
