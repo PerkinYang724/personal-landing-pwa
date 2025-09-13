@@ -129,8 +129,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 console.log("backgroundMusicSrc:", backgroundMusicSrc);
                 console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
-
-                // Mute the video and let it loop silently
+                
+                // Keep video muted and let it loop silently
                 const video = videoRef.current;
                 if (video) {
                     video.muted = true;
@@ -138,7 +138,8 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     video.currentTime = 0;
                     video.play().catch(console.warn);
                 }
-
+                
+                // Start background music immediately
                 const audio = audioRef.current;
                 if (audio && backgroundMusicSrc) {
                     console.log("Attempting to play background music...");
@@ -146,10 +147,11 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     console.log("Audio element readyState:", audio.readyState);
                     console.log("Audio element paused:", audio.paused);
                     console.log("Audio element currentTime:", audio.currentTime);
-
+                    
                     // Set volume to make sure it's audible
                     audio.volume = 0.7;
-
+                    
+                    // Try to play immediately
                     audio.play().then(() => {
                         console.log("Background music started playing successfully");
                         console.log("Audio element playing:", !audio.paused);
@@ -203,6 +205,7 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     ref={videoRef}
                     className={`transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"
                         }`}
+                    muted
                     playsInline
                     poster={poster}
                     style={{
