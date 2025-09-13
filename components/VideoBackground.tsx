@@ -125,18 +125,19 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             };
 
             const handleVideoEnd = () => {
-                console.log("Video ended, starting background music");
+                console.log("Video ended, muting video and starting background music");
                 console.log("backgroundMusicSrc:", backgroundMusicSrc);
                 console.log("audioRef.current:", audioRef.current);
                 setVideoEnded(true);
                 
-                // Keep video muted and let it loop silently
+                // Mute the video and let it loop silently
                 const video = videoRef.current;
                 if (video) {
                     video.muted = true;
                     video.loop = true;
                     video.currentTime = 0;
                     video.play().catch(console.warn);
+                    console.log("Video muted and set to loop silently");
                 }
                 
                 // Start background music immediately
@@ -205,7 +206,6 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                     ref={videoRef}
                     className={`transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"
                         }`}
-                    muted
                     playsInline
                     poster={poster}
                     style={{
