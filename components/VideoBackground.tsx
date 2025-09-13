@@ -77,8 +77,9 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
             <div className={`absolute inset-0 overflow-hidden ${className}`}>
                 <video
                     ref={videoRef}
-                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isLoaded && hasPlayed ? "opacity-100" : "opacity-0"
-                        }`}
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+                        isLoaded ? "opacity-100" : "opacity-0"
+                    }`}
                     muted
                     loop
                     playsInline
@@ -89,11 +90,18 @@ export const VideoBackground = forwardRef<VideoBackgroundRef, VideoBackgroundPro
                 </video>
 
                 {/* Fallback poster image */}
-                {poster && (!isLoaded || !hasPlayed) && (
+                {poster && !isLoaded && (
                     <div
                         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
                         style={{ backgroundImage: `url(${poster})` }}
                     />
+                )}
+
+                {/* Debug info */}
+                {process.env.NODE_ENV === 'development' && (
+                    <div className="absolute top-4 left-4 text-white text-xs bg-black/50 p-2 rounded">
+                        Video: {isLoaded ? 'Loaded' : 'Loading...'} | Played: {hasPlayed ? 'Yes' : 'No'}
+                    </div>
                 )}
 
                 {/* Overlay for better text readability */}
