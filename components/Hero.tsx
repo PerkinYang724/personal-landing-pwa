@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from "lucide-react";
 import { FilmGrain } from "./FilmGrain";
 import { QRBlock } from "./QRBlock";
+import { VideoBackground } from "./VideoBackground";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -89,14 +90,22 @@ export function Hero() {
                             </motion.div>
                         </motion.div>
                     ) : (
-                        <motion.div
-                            key="main"
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -30 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
-                            className="space-y-8"
-                        >
+                        <>
+                            {/* Video Background for Main Interface */}
+                            <VideoBackground
+                                videoSrc="/videos/hero-background.mp4"
+                                poster="/images/hero-poster.jpg"
+                                className="z-0"
+                            />
+                            
+                            <motion.div
+                                key="main"
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -30 }}
+                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                className="space-y-8 relative z-10"
+                            >
                             {/* Main Heading */}
                             <div className="space-y-6">
                                 <motion.div
@@ -184,7 +193,8 @@ export function Hero() {
                             >
                                 <QRBlock />
                             </motion.div>
-                        </motion.div>
+                            </motion.div>
+                        </>
                     )}
                 </AnimatePresence>
             </div>
